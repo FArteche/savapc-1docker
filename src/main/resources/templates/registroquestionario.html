@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+	<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>RegistrosQuest</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+		<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+		<link th:href="@{/css/styles.css}" rel="stylesheet">
+		<script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+		<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+	</head>
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        
+		<div th:insert="fragments/frag :: navProf"></div>
+		
+		<div class="container mt-2">
+            <a class="btn btn-secondary mb-2" th:href="@{/auth/turmas}" style="width: auto;">Voltar</a>
+      <div class="mx-auto text-end">
+				<a type="button" class="btn btn-secondary mt-2" th:href="@{/auth/turma/relatorio/exportarRelatorioQuestionario/{turmaId}/download(turmaId=${turmaId})}">
+					Exportar relatório
+				</a>
+			 </div>
+			 <div class="row">
+            <div th:insert="mensagemValidacao"></div>
+               <h5 class="card-subtitle text-body-secondary mt-2 " th:text="${turma.nome}">TurmaNome</h5>
+                            
+                <table class="table">
+                    <thead >
+                      <tr class="mx-auto text-center">
+                        <th scope="col">Aluno</th>
+                        <th scope="col">Pergunta</th>
+                        <th scope="col">Resposta</th>
+                      </tr>
+                    </thead>
+                    <tbody th:each=" reg , i : ${registros}">
+                      <tr class="mx-auto text-center" th:each=" resp , j : ${reg.respostasQuestionario}">
+                        <td>
+                          <div class=" align-items-center">
+                                <p class="fw-bold mb-1" th:text="${reg.usuario.nome}">Nome</p>
+                                <p class="text-muted mb-0" th:text="${reg.usuario.identificador}">Identificador</p> 
+                          </div>
+                        </td>
+                        <td>
+                          <div class=" align-items-center"> 
+                                <p class="fw-bold mb-1" th:text="${reg.questionario.nome}">Teste</p>
+                                <p class="text-muted mb-0" th:text="${resp.perguntaQuestionario.titulo}">Titulo</p> 
+                          </div>
+                        </td>
+                        <td >
+                          <div class="align-items-center">
+                              <p class=" mb-1" th:text="${resp.resposta}">Resposta</p>                          
+                          </div>
+                        </td>
+                      </tr>  
+                    </tbody>
+                  </table>
+        </div>
+			
+		</div>
+    </body>
+    <footer>
+        
+    </footer>
+</html>
+

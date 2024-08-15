@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Bem vindo!</title>
+        
+        <link th:href="@{/css/styles.css}" rel="stylesheet">
+        <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+		
+    </head>
+    <body>
+        <div sec:authorize="hasRole('ROLE_PROF')">
+            <div th:insert="~{fragments/frag :: navProf}"></div>
+        </div>
+          
+          <div sec:authorize="!isAuthenticated()">
+            <div th:replace="~{fragments/frag :: navAll}"></div>
+          </div>
+          <div sec:authorize="hasRole('ROLE_ALUNO')">
+            <div th:insert="~{fragments/frag :: navAll}"></div>
+          </div>
+        <th:block th:replace="~{mensagemValidacao.html}"></th:block>
+        <header class=" bg-dark bg-gradient text-white p-4">
+            <div class="container px-4 text-center">
+                <h1 class="fw-bolder">Bem Vindo ao SAVA-PC</h1>
+                <p class="lead">Sistema de auxílio para a avaliação do Pensamento Computacional</p>
+                <a class="btn btn-lg btn-light" href="#about">Conheça!</a>
+            </div>
+        </header>
+        <!-- About section-->
+        <section id="about">
+            <div class="container px-4 mt-2 ">
+                <div class="row gx-4 justify-content-center">
+                    <div class="col-lg-8">
+                        <h2>Sobre o sistema</h2>
+                        <p class="lead">O SAVA-PC (Sistema de auxílio para a avaliação do Pensamento Computacional) é um sistema computacional desenvolvido com o principal objetivo de auxiliar professores na avaliação do pensamento computacional de seus alunos. Através desse sistema, os docentes podem obter relatórios que fornecem resultados dos testes realizados pelos estudantes, destacando as habilidades específicas do pensamento computacional utilizadas na resolução de problemas<br><br>
+                        
+                        Uma das principais vantagens do SAVA-PC é a automação do processo de avaliação realizado pelos professores. Anteriormente, a avaliação dessas habilidades era realizada manualmente, consumindo tempo e esforço significativos. Com o uso do SAVA-PC, o processo de avaliação é agilizado, permitindo que os educadores dediquem mais tempo ao ensino e ao suporte individualizado aos discentes.<br><br>
+                        
+                        Em resumo, o SAVA-PC é um sistema computacional inovador que contribui para o desenvolvimento das habilidades de pensamento computacional dos alunos. Ao automatizar o processo de avaliação e fornecer análises detalhadas, o sistema oferece suporte valioso aos professores, permitindo uma melhor compreensão do progresso dos alunos e direcionando o ensino de maneira eficaz.
+                        <br><br>
+                        Agradecimentos à Fundação de Amparo à Pesquisa do Estado do Rio Grande do Sul (FAPERS) e a Pró reitoria de Pesquisa, Inovação e Pós-graduação (PROPESP) do Instituto Federal de Educação, Ciência e Tecnologia Sul-rio-grandense pelo financiamento e apoio desta pesquisa, respectivamente.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Contact section-->
+        <section id="contact">
+            <div class="container px-4 mt-2">
+                <div class="row gx-4 justify-content-center">
+                    <div class="col-lg-8">
+                        <h2 class="mt-2">Entre em contato</h2>
+                        <p class="lead mt-1">Carlos Eduardo</p>
+                        <p class="lead mt-1">carlossevero.sl001@academico.ifsul.edu.br</p>
+                        <hr>
+                        <p class="lead mt-1">Walkiria Cordenonzi</p>
+                        <p class="lead mt-1">walkiriacordenonzi@ifsul.edu.br</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container">
+            <div class=" row mx-auto">
+                <a class="btn btn-secondary mt-2 mb-2 w-auto mx-auto " th:href="@{/aluno/turmas}">Entrar</a>
+            </div>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+    </body>
+    <footer>
+        <div th:replace="~{fragments/frag.html :: footer}"></div>
+    </footer>
+</html>

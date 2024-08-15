@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+</head>
+<body>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        
+     <div th:insert="~{fragments/frag :: navAll}"></div>
+     
+     <!-- Section: Design Block -->
+  <section class="vh-130" style="background-color: #6c757d; " >
+  <div class="row mt-2" th:if="${param.success}">
+    <div class="alert alert-success">Cadastrado com sucesso!</div>
+   </div>
+   <div class="row mt-2" th:if="${param.existem}">
+    <div class="alert alert-danger">Nome de usuário ou identificaçao já existem!</div>
+   </div>
+   <div class="row mt-2" th:if="${param.campos}">
+    <div class="alert alert-danger">Confira os campos obrigatórios!</div>
+   </div>
+   <div class="row mt-2" th:if="${param.fraca}">
+    <div class="alert alert-danger">Senha fraca! . É necessário uma senha com no minimo 6 digitos contendo caractér maiusculo, minusculo e numérico.</div>
+   </div>
+   
+  
+    <!-- Background image -->
+    <div class="p-5 bg-image bg-dark bg-gradient" style="
+    height: 200px;
+    "></div>
+    <!-- Background image -->
+  <div class="card mx-4 mx-md-5 shadow-5-strong" style="
+        margin-top: -100px;
+        background: hsla(0, 0%, 100%, 0.8);
+        backdrop-filter: blur(30px);
+        ">
+    <div class="card-body py-5 px-md-5">
+
+      <div class="row d-flex justify-content-center">
+        <div class="col-lg-5">
+          <h2 class="fw-bold mb-5">Cadastro</h2>
+          <form th:action="@{/registrationAluno}" method="post" enctype="multipart/form-data">
+            <!-- 2 column grid layout with text inputs for the first and last names -->
+            <input hidden type="text" id="matricula" class="form-control" name="tipo" value="aluno"/>
+            <div class="form-outline mb-4">
+              <input type="text" id="nome" class="form-control" name="nome" required/>
+              <label class="form-label" for="nome">Nome*</label>
+            </div>
+            <div class="form-outline mb-4">
+              <input type="email" id="email" class="form-control" name="email" required/>
+              <label class="form-label" for="email">Email*</label>
+            </div>
+            <div class="form-outline mb-4">
+              <input type="number" id="telefone" class="form-control" name="telefone" required/>
+              <label class="form-label" for="telefone">Telefone*</label>
+            </div>
+            <div class="form-outline mb-4">
+              <input type="text" id="identificador" class="form-control" name="identificador" required/>
+              <label class="form-label" for="identificador">Identificador(Matricula)*</label>
+            </div>
+            <div class="form-group mt-2">
+              <label class="control-label" for="dataNascimento"> Data de nascimento*</label> <input
+               type="date" id="dataNascimento" class="form-control" name="dataNascimento" required
+               autofocus="autofocus" />
+            </div>
+            <div class="form-group mt-2">
+              <label for="img" class="control-label">Imagem(opcional)</label>
+              <input type="file" class="form-control" id="img" name="file" >
+            </div>
+            <div class="form-outline mt-2 mb-4">
+              <input type="text" id="username" class="form-control" name="username" required/>
+              <label class="form-label" for="username">Nome de Usuario*</label>
+            </div>
+            <div class="form-outline mt-2 mb-4">
+              <input type="password" id="password" class="form-control" name="password" required/>
+              <label class="form-label" for="password">Senha*</label>
+            </div>
+
+           
+            <div class="form-group mt-2">
+              <button type="submit" class="btn btn-success">Cadastrar</button>
+              <span>Já é cadastrado? <a href="/" th:href="@{/login}">Faça Login</a></span>
+            </div>
+          </form> 
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section: Design Block -->        
+  
+</body>
+<footer>
+  <div th:insert="~{fragments/frag :: footer}"></div>
+</footer>
+</html>

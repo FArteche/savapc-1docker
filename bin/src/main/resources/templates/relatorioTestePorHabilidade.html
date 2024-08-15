@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+	<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>relatorio</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+		<link th:href="@{/css/styles.css}" rel="stylesheet">
+		<script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+		<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+	</head>
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        
+		<div th:insert="fragments/frag :: navProf"></div>
+
+		<th:block th:insert="mensagemValidacao"></th:block>
+		<div class="mx-auto " style="max-width: auto;" > 
+			<table class="table align-middle mb-0 bg-white rounded" style="border: solid gray 3px;">
+				<div class="mt-2 d-flex">
+					<a class="btn btn-secondary mb-2" th:href="@{/auth/turmas}" style="width: auto;">Voltar</a>
+					<div class="d-flex p-2 w-100"><h3 th:text="${turmaNome}"></h3> </div>
+					<div class="p-2 flex-shrink-1 d-flex">
+						<a class="mt-1 mb-1 me-1 ms-1 btn btn-secondary" th:href="@{/auth/turma/relatorio/atualizarRelatorio/{turmaId}(turmaId=${turmaId})}">Atualizar relatório</a>
+						
+					</div>
+				</div>
+				
+				<thead class="bg-light">
+				  <tr class="text-center">
+					<th scope="col">Aluno</th>
+					<th scope="col">Turma</th>
+					<th scope="col">N.Questões Corretas</th>
+					<th scope="col">N.TotalQuestões</th>
+					<th scope="col">H1</th>
+					<th scope="col">H2</th>
+					<th scope="col">H3</th>
+					<th scope="col">H4</th>
+					<th scope="col">H5</th>
+					<th scope="col">NotaProjeto</th>
+					<th scope="col">NotaTestes</th>
+					<th scope="col">NotaFinal</th>
+					<th scope="col">Recomendação</th>
+					<th scope="col">SabeProgramar</th>
+					<th scope="col"></th>
+					<th scope="col">Opções</th>
+				  </tr>
+				</thead>
+				<tbody >
+					<tr th:if="${contabilizacoes.empty}">
+						<td>Sem registros disponíveis</td>
+					</tr>
+				  <tr th:each="c , i : ${contabilizacoes}"  class="text-center">
+					<td >
+						<div class="d-flex align-items-center">
+							<div class="ms-3">
+							  <p class="fw-bold mb-1" th:text="${c.usuario.nome}">AlunoX</p>
+							  <p class="text-muted mb-0" th:text="${c.usuario.identificador}">MatriculaX</p>
+							</div>
+						  </div>
+					</td>
+					<td >
+						<p class="fw-normal mb-1" th:text="${turmaNome}">NomeTurma</p>
+					  </td>
+					<td >
+						<p class="fw-normal mb-1" th:text="${c.nPerguntasCorretas}">nQuestoesCertas</p>
+					</td>
+					<td >
+						<p class="fw-normal mb-1" th:text="${c.nPerguntas}">nQuestoes</p>
+					</td>
+					<td >
+						<p class="fw-normal mb-1" th:text="${c.h1}">H1</p>
+					</td>
+					<td >
+						<p class="fw-normal mb-1" th:text="${c.h2}">H2</p>
+					</td>
+					<td >
+						<p class="fw-normal mb-1" th:text="${c.h3}">H3</p>
+					</td>
+					<td >
+						<p class="fw-normal mb-1" th:text="${c.h4}">H4</p>
+					</td>
+					<td >
+						<p class="fw-normal mb-1" th:text="${c.h5}">H5</p>
+					</td>
+					
+					<td >
+						<p class="fw-normal mb-1" th:text="${c.notaProjetoFinal}">notaProjeto</p>
+					</td>
+					<td >
+						<p class="fw-normal mb-1" th:text="${c.notaTestes}">NotaTestes</p>
+					</td>
+					<td >
+						<p class="fw-normal mb-1" th:text="${c.notaFinal}">NotaFinal</p>
+					</td>
+					<td >
+						<p th:if="${c.recomendacao == 'N/D'}" class="fw-normal mb-1" style="color: red;" th:text="${c.recomendacao}">recomendacao</p>
+						<p th:unless="${c.recomendacao =='N/D'}" class="fw-normal mb-1 " style="color: green;" th:text="${c.recomendacao}">recomendacao</p>
+					</td>
+					<td >
+						<p class="fw-normal mb-1" th:text="${c.sabeProgramar}">SabeProgramar</p>
+					</td>
+					<td >
+						<p th:if="${c.desclassificado}" style="color: red;">Eliminado</p>
+						<i th:if="${c.desclassificado}" class="fa-regular fa-face-frown me-1 fa-2xl" style="color: red;"></i>
+					</td>
+					<td>
+						<!-- Inicio Bloco Modal -->
+						<button type="button" class="btn btn-secondary mt-1 mb-1" data-bs-toggle="modal" th:attr="data-bs-target='#updateNota_'+${c.notaId}" >Editar Nota</button>
+					
+							<div class="modal" th:id="updateNota_+${c.notaId}"  tabindex="-1" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLongTitle" >Atualizar Nota de </h5> <h5 class="modal-title" th:text="${c.usuario.nome}"></h5>
+									<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+										<i class="fa fa-times" aria-hidden="true"></i>
+									</button>
+									</div>
+									<div class="modal-body">
+										<div class="d-flex me-1"><p>Recomendação: </p><p th:text="${c.recomendacao}">recomendação</p></div>
+										
+										<form method="post" th:action="@{/auth/turma/relatorio/updatenota/{turmaId}/{notaId}(turmaId=${turmaId} ,notaId=${c.notaId})}">
+											
+											<div class="form-group mt-2">
+                                                <label for="recomendacao" class="form-label">Recomendação</label>
+                                                <select class="form-select" aria-label="recomendaçao" id="recomendacao" name="recomendacao">
+                                                    <option selected th:value="${c.recomendacao}" th:text="${c.recomendacao}">Recomendacao*</option>
+                                                    <option value="N/D">N/D</option>
+                                                    <option value="Acod">Acod</option>
+													<option value="Lcod">Lcod</option>
+													<option value="Pcd">Pcd</option>
+                                                </select>
+                                            </div>
+											<div class="mb-3">
+												<label for="nota" class="form-label">nota projeto</label>
+												<input type="number" step="0.01" class="form-control" id="nota" name="nota" th:value="${c.notaProjetoFinal}">
+											</div>
+											<div class="form-check mb-3 ms-2 w-50">
+												<input class="form-check-input " type="checkbox" id="elimin" name="elimin" th:checked="${c.desclassificado}" th:value="${c.desclassificado}">
+												<label class="form-check-label" for="elimin"> Desclassificado </label>
+											</div>
+												<button type="submit" class="btn btn-secondary">Salvar</button>	
+										  </form>
+									</div>
+									<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar
+									</button>
+									</div>
+								</div>
+								</div>
+							</div>
+						<!-- Fim Bloco Modal -->
+					</td>
+				  </tr>
+				</tbody>
+			  </table>
+			 <div class="mx-auto text-center">
+				<a type="button" class="btn btn-secondary mt-2" th:href="@{/auth/turma/relatorio/exportarRelatorioTeste/{turmaId}/download(turmaId=${turmaId})}">
+					Exportar relatório
+				</a>
+			 </div> 
+			  
+		</div>
+		
+		
+	
+    </body>
+    <footer>
+        <div style="margin-top:20%;" th:insert="fragments/frag :: footer"></div>
+    </footer>
+</html>
+

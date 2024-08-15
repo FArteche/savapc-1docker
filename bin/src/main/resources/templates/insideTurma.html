@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+	<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Turma</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+		<link th:href="@{/css/styles.css}" rel="stylesheet">
+		<script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+		<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+	</head>
+    <body class=" bg-image" style="background-image: url('https://img.freepik.com/free-photo/gray-concrete-wall-with-scratches_53876-101961.jpg');
+	height: 100vh; background-color: hsla(0, 0%, 0%, 0.6)">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+		<div th:insert="~{fragments/frag :: navAll}"></div>
+		
+			<div class=" container bg-dark bg-gradient text-white p-4 rounded mt-4">
+				<th:block th:insert="~{mensagemValidacao}"></th:block>	
+				<a th:href="@{/aluno/turmas}" class="btn btn-secondary">Voltar</a>
+					<div class="row">
+						<div class="row-auto ">
+							<h3 class="mt-2 p-2 mx-auto" th:text="${turma.nome}"></h3>
+						</div>
+						<div class="col">
+							<!-- Nav tabs -->
+							<ul class="nav nav-tabs ms-2 p-2" id="myTab" role="tablist">
+								<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true" style="text-decoration: none; ">Inicio</button>
+								</li>
+								<li class="nav-item" role="presentation">
+								<button class="nav-link" id="testes-tab" data-bs-toggle="tab" data-bs-target="#testes" type="button" role="tab" aria-controls="testes" aria-selected="false" style="text-decoration: none;">Testes</button>
+								</li>
+								<li class="nav-item" role="presentation">
+								<button class="nav-link" id="questionarios-tab" data-bs-toggle="tab" data-bs-target="#questionarios" type="button" role="tab" aria-controls="questionarios" aria-selected="false" style="text-decoration: none;">Questionarios</button>
+								</li>
+							</ul>
+							
+							<!-- Tab panes -->
+							<div class="tab-content ms-2 p-2">
+								<div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">Espere instruções</div>
+								<div class="tab-pane" id="testes" role="tabpanel" aria-labelledby="testes-tab" tabindex="0">
+									<div class="card text-center bg-white shadow-lg p-3 mb-5 bg-body-tertiary rounded " th:each="t , i : ${testes}" style="max-width: 300px;">
+										<div class="card-header" th:text="${t.disponibilidade}"></div>
+											<div class="card-body">
+												<h5 class="card-title" th:text="${t.nome}"></h5>
+												<p class="card-text" ></p>
+											</div>
+											<div class="card-footer text-muted"> 
+												<form th:action="@{/aluno/aplicacao/{turmaId}/{testeId}(turmaId=${turma.turmaId},testeId=${t.testeId})}" method="post">
+													<input hidden type="text" name="username" th:value="${#authentication.principal.username}">
+													<button class="btn btn-outline-primary" type="submit">Acessar Teste</button>
+												</form>
+											</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="questionarios" role="tabpanel" aria-labelledby="questionarios-tab" tabindex="0">
+									<div class="card text-center p-3 mb-2 bg-shite shadow-lg p-3 mb-5 bg-body-tertiary rounded " th:each="q , j : ${questionarios}" style="max-width: 300px;">
+										<div class="card-header " th:text="${q.disponibilidade}"></div>
+											<div class="card-body">
+												<h5 class="card-title " th:text="${q.nome}"></h5>
+												<p class="card-text" ></p>
+											</div>
+											<div class="card-footer text-muted"> 
+												<a class="btn btn-outline-primary" th:href="@{/aluno/aplicacaoquest/{turmaId}/{questionarioId}(turmaId=${turma.turmaId},questionarioId=${q.questionarioId})}" role="button">Acessar Questionario</a>
+											</div>
+									</div>	
+								</div>
+								
+							</div>
+						</div>
+		
+					</div>
+		
+				</div>
+		
+		
+		
+    </body>
+    <footer>
+        <div style="margin-top: 20%;" th:insert="~{fragments/frag :: footer}"></div>
+    </footer>
+</html>
+

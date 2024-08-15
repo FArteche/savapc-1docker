@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testes</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+
+    <div th:insert="~{fragments/frag :: navProf}"></div>
+
+    <div class="container mt-2">
+        <div class="row">
+
+            <a class="btn btn-secondary mb-2" th:href="@{/auth/turmas}" style="width: auto;">Voltar</a>
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#insertTeste">Inserir Teste</button>
+            <!-- Inicio Bloco Modal -->
+            <div class="modal" id="insertTeste" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle1"> Inserir novo Teste</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" th:object="${testeForm}" th:action="@{/auth/turma/{turmaId}/saveTeste(turmaId=${turmaId})}">
+                                <div class="mb-3">
+                                    <label for="nome1" class="form-label">Nome</label>
+                                    <input type="text" class="form-control" id="nome1" name="nome" placeholder="Nome*" required>
+                                </div>
+
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="visibilidade1"
+                                        name="visibilidade" checked>
+                                    <label class="form-check-label" for="visibilidade1">Visibilidade</label>
+                                </div>
+                                <div class="form-group mt-2">
+                                    <label class="control-label" for="disponibilidade1"> Disponibilidade </label> <input
+                                        type="date" id="disponibilidade1" class="form-control" required
+                                        autofocus="autofocus" name="disponibilidade" />
+                                </div>
+                                <div style="border: solid black 1px; padding: 5px; margin-top: 10px;">
+                                    <h5 style="text-align: center;">Selecione perguntas disponíveis(Opcional)</h5>
+                                    <div class="form-group mb-auto mt-auto" th:each="pergunta , j : ${perguntas}"
+                                        style="border-top: solid black 1px;">
+                                        <div class="mt-2 mt-2">
+                                            <input class="form-check-input" type="checkbox" id="titulo2"
+                                                th:name="|perguntas[${j.index}].perguntaTesteId|"
+                                                th:value="${pergunta.perguntaTesteId}">
+                                            <label for="titulo2" class="form-label" th:text="${pergunta.titulo}"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="mt-2 btn btn-secondary mt-2">Salvar</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fim Bloco Modal -->
+        </div>
+        <th:block th:insert="~{mensagemValidacao}"></th:block>
+        <div class="row">
+            <div class="col">
+                <h4 th:text="${turmaNome}">Turma Nome</h4>
+                <form method="post" th:object="${turmaTestesForm}">
+                    <div class="col-lg-10 mt-5 mb-5">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nome </th>
+                                    <th scope="col">Visibilidade</th>
+                                    <th scope="col">Disponibilidade</th>
+                                    <th scope="col">Opções</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="t, i: ${testesAll}">
+                                    <td th:text="${t.nome}"></td>
+                                    <td th:text="${t.visibilidade}"></td>
+                                    <td th:text="${t.disponibilidade}"></td>
+                                    <td><a class="btn btn-secondary mt-1"
+                                            th:href="@{/auth/turma/{turmaId}/teste/deleteteste/{id}( turmaId=${turmaId}, id=${t.testeId})}"
+                                            role="button">Deletar</a>
+                                        <!-- Inicio Bloco Modal --> 
+                                        <button type="button" class="btn btn-secondary mt-1" data-bs-toggle="modal"
+                                            th:attr="data-bs-target='#updateTeste_'+${t.testeId}">Editar</button>
+                                        <div class="modal" th:id="updateTeste_+${t.testeId}" tabindex="-1"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle2">Atualizar
+                                                            Teste</h5>
+                                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="post"  th:action="@{/auth/turma/{turmaId}/teste/updateteste/{id}(id=${t.testeId},turmaId=${turmaId})}">
+                                                            <div class="mb-3">
+                                                                <label for="nome" class="form-label">Nome</label>
+                                                                <input type="text" class="form-control" id="nome"
+                                                                    name="nome" th:value="${t.nome}" required>
+                                                            </div>
+
+                                                            <div class="form-check form-switch">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    role="switch" id="visibilidade" name="visibilidade"
+                                                                    th:checked="${t.visibilidade}">
+                                                                <label class="form-check-label"
+                                                                    for="visibilidade">Visibilidade</label>
+                                                            </div>
+                                                            <div class="form-group mt-2">
+                                                                <label class="control-label" for="disponibilidade">
+                                                                    Disponibilidade </label>
+                                                                <input type="date" id="disponibilidade"
+                                                                    class="form-control" autofocus="autofocus"
+                                                                    name="disponibilidade"
+                                                                    th:value="${t.disponibilidade}" required/>
+                                                            </div>
+                                                            <button type="submit" class="mt-2 btn btn-secondary mt-2">Salvar</button>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Cancelar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Fim Bloco Modal -->
+
+
+                                        <!-- Inicio Bloco Modal -->
+                                        <button type="button" class="btn btn-secondary mt-1" data-bs-toggle="modal"
+                                            th:attr="data-bs-target='#testesTurma_'+${t.testeId}">Perguntas</button>
+                                        <div class="modal" th:id="testesTurma_+${t.testeId}" tabindex="-1"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Perguntas
+                                                        </h5>
+                                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div th:each="p,k:${t.perguntasTeste}">
+
+                                                            <div class="d-flex">
+                                                                <div class="col-sm-5"><span
+                                                                        th:text="${k.count}"></span><span>. </span><span
+                                                                        th:text="${p.titulo}"></span></div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="row ms-1 me-1 mt-1 mb-1">
+                                                                        <a class="btn btn-secondary"
+                                                                            th:href="@{/auth/t/{turmaId}/t/{testeId}/perguntaTeste/{id}/opcoesresposta(turmaId=${turmaId},testeId=${t.testeId},id=${p.perguntaTesteId})}"
+                                                                            role="button">Opções Resposta</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-2">
+                                                                    <div class="row ms-1 me-1 mt-1 mb-1">
+                                                                        <a class="btn btn-secondary"
+                                                                            th:href="@{/auth/turma/{turmaId}/teste/{testeId}/pergunta/{perguntaId}/habilidades(turmaId=${turmaId}, testeId=${t.testeId},perguntaId = ${p.perguntaTesteId}) }">Habilidades</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mx-auto mt-2" style="text-align: center;">
+                                                            <a class="btn btn-secondary "
+                                                                            th:href="@{/auth/turma/{turmaId}/teste/perguntas/{id}(turmaId=${turmaId},id=${t.testeId}) }">Ver
+                                                                            mais</a>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Cancelar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    <!-- Fim Bloco Modal -->
+                                     <a class="btn btn-secondary mt-1" role="button" th:href="@{/auth/turma/teste/tentativas/{turmaId}/{testeId}(turmaId=${turmaId}, testeId=${t.testeId})}">Tentativas</a>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" th:name="|testes[${i.index}].testeId|"
+                                        th:value="${t.testeId}" unchecked>
+                                    <label class="form-check-label">Utilizar</label>
+                                </div>
+                            </td>
+                             </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Aplicar</button>
+                </form>
+            </div>
+            <div class="col-2 mt-4 p-1">
+                <h4>Testes inclusos</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="test, j: ${testesTurma}">
+                            <td>
+                                <span th:text="${test.nome}"></span>
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        fill="currentColor"
+                                        class="bi bi-check-lg"
+                                        viewBox="0 0 16 16">
+                                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z" />
+                                    </svg>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+                crossorigin="anonymous"></script>
+</body>
+<footer class=" mt-2" th:insert="~{fragments/frag :: footer}"></footer>
+
+
+</html>

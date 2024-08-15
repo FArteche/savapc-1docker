@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link th:href="@{/css/styles.css}" rel="stylesheet">
+        <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<body>
+
+    <nav th:fragment="navAll">
+      <div class="d-flex justify-content-between bg-dark text-white" style="height: 50px;">
+          <div>
+              <a class="text-white p-3 m-2  text-decoration-none fs-4" th:href="@{/index}">SAVA-PC</a>
+          </div>
+          <div class="d-flex">
+              <div class="me-4 align-self-center" sec:authorize="isAuthenticated()">
+                <span class="text-white " sec:authentication="name"> </span>
+              </div>
+              <ul class="navbar-nav d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0 align-self-center">
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" id="navbarDropdown1" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><!--<i class="fas fa-user fa-fw"></i>-->
+
+                          <!--<img th:src="@{imagesUser/${#authentication.getPrincipal().getUsername()}}">-->
+                          <img sec:authorize="not isAuthenticated()" th:src="@{imagesUser/Default_Profile_Picture}">
+                          <img sec:authorize="isAuthenticated()" th:src="@{imagesUser/${#authentication.getPrincipal().getUsername()}}">
+
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown1">
+                          <li sec:authorize="not isAuthenticated()"><a class="dropdown-item" th:href="@{/login}">Login</a></li>
+                          <li sec:authorize="not isAuthenticated()"><a class="dropdown-item" th:href="@{/registrationAluno}">Registrar-se</a></li>
+                          <li><hr class="dropdown-divider" /></li>
+                          <li sec:authorize="isAuthenticated()"><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+                      </ul>
+                  </li>
+              </ul>
+          </div>
+      </div>
+    </nav>
+
+    <nav th:fragment="navProf">
+        <div class="d-flex justify-content-between bg-dark text-white">
+            <div class="d-flex align-items-center">
+                <a class="text-white p-1 m-2  text-decoration-none fs-4" th:href="@{/index}">SAVA-PC</a>
+                <a class="nav-link text-white p-1 ms-3" th:href="@{/auth/painelgeral}" ><i class="fa fa-book me-1" aria-hidden="true" style="color: white;"></i>Painel Geral</a>
+            </div>
+            <div class="d-flex align-items-center">
+                <div class="me-3" sec:authorize="isAuthenticated()">
+                    <span class="text-white " sec:authentication="name"> </span>
+                </div>
+                <ul class="navbar-nav d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><!--<i class="fas fa-user fa-fw"></i>-->
+                            <img th:src="@{imagesUser/${#authentication.getPrincipal().getUsername()}}">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li sec:authorize="not isAuthenticated()"><a class="dropdown-item" th:href="@{/login}">Login</a></li>
+                            <li sec:authorize="not isAuthenticated()"><a class="dropdown-item" th:href="@{/registrationAluno}">Registrar-se</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li sec:authorize="isAuthenticated()"><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div th:fragment="footer">
+        <div class="py-4 bg-light mt-5 ">
+            <div class="container-fluid px-4">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; IFSUL TADS 2023</div>
+                    <div>
+                        <img th:src="@{/images/iflogo.png}" width="200" alt="logo ifsul" class="img-fluid" style="border-radius: 1rem 0 0 1rem;"/>
+                        <img th:src="@{/images/fapergslogo.png}" width="200" alt="logo fapergs" class="img-fluid" style="border-radius: 1rem 0 0 1rem;"/>
+                    </div>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        &middot;
+                        <a href="#">Terms &amp; Conditions</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
