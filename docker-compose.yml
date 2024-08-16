@@ -1,6 +1,29 @@
 services:
+  db:
+    image: mysql:8.0.34
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: p0w3rc0d3#@lph@#$%
+      MYSQL_DATABASE: sistematcc
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./initdb:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
   app:
     build: .
     container_name: savapc-app
     ports:
       - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/sistematcc
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: p0w3rc0d3#@lph@#$%
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
