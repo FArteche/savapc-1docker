@@ -1,6 +1,5 @@
 package com.ifsul.savapc.controller;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,7 +33,7 @@ public class perguntaTesteController {
     testeRepository testeRepository;
 
     /*classPath utilizado para direcionar o upload das imagens*/
-    private String classPathImg = "C:\\Users\\faart\\Desktop\\savapc-main\\target\\savapc-1\\WEB-INF\\classes\\static\\images\\";/*/opt/tomcat/webapps/savapc-1/WEB-INF/classes/static/images/*/
+    private String classPathImg = "/usr/local/tomcat/webapps/savapc-1/WEB-INF/classes/static/images/";/*/opt/tomcat/webapps/savapc-1/WEB-INF/classes/static/images/*/
 
     /* Listar perguntas por teste (Prof)*/
     @GetMapping(value = "/auth/teste/perguntas/{id}")

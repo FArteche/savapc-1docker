@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class imagesController {
 
-    private String classPath = "/resources/static/images/";
+    private String classPath = "/usr/local/tomcat/webapps/savapc-1/WEB-INF/classes/static/images/";
     /*Mostrar imagem de login pelo thymeleaf*/
     @GetMapping("/images/{img}") // Ou ../static/images/login.jpg
     @ResponseBody
